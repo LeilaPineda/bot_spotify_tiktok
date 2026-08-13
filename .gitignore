@@ -1,0 +1,15 @@
+# Archivo de caché de autenticación de Spotify (¡Contiene tu token privado!)
+.cache
+.cache-*
+
+# Entornos virtuales
+env/
+venv/
+.venv/
+
+# Archivos de configuración con claves reales
+.env
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
