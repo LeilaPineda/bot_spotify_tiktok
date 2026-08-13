@@ -68,10 +68,10 @@ TIKTOK_USERNAME = 'TIKTOK_USERNAME'
 ```bash
 python bot_spotify_tiktok.py
 ```
-La primera vez se abrirá una pestaña del navegador solicitando permisos de Spotify. Haz clic en Aceptar.
-¡Listo! Cuando tus espectadores escriban en el chat:
+* La primera vez se abrirá una pestaña del navegador solicitando permisos de Spotify. Haz clic en Aceptar.
+* ¡Listo! Cuando tus espectadores escriban en el chat:
 **!play Ojitos Lindos Bad Bunny**
-El bot buscará la canción en Spotify y la agregará a tu cola de reproducción.
+* El bot buscará la canción en Spotify y la agregará a tu cola de reproducción.
 
 ## 🛡️ Licencia
 Este proyecto está distribuido bajo la licencia MIT. Consulta el archivo LICENSE para más información.
