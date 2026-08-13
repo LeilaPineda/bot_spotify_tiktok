@@ -9,10 +9,10 @@ from TikTokLive.events import CommentEvent
 # Nota: Para desarrollo local o pruebas, ingresa tus credenciales aquí.
 # Nunca subas tus claves reales a un repositorio público.
 # ==============================================================================
-SPOTIPY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID", "8640c4aec8e2429d940e6f632f8447bc")
-SPOTIPY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET", "4120bdc7090e427889b8789c3cf76e56")
+SPOTIPY_CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID", "TU_SPOTIFY_CLIENT_ID")
+SPOTIPY_CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET", "TU_SPOTIFY_CLIENT_SECRET")
 SPOTIPY_REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URI", "http://127.0.0.1:8888/callback")
-TIKTOK_USERNAME = os.getenv("TIKTOK_USERNAME", "xleiila__")
+TIKTOK_USERNAME = os.getenv("TIKTOK_USERNAME", "TIKTOK_USERNAME")
 
 # Alcance de permisos necesarios en la API de Spotify
 SCOPE = "user-modify-playback-state user-read-playback-state"
