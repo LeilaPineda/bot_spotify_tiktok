@@ -24,22 +24,22 @@ Bot de automatización desarrollado en **Python** que se conecta en tiempo real 
 ## 📁 Estructura del Proyecto
 
 ```text
-Bot_Spotify_Tiktok/
+bot_spotify_tiktok/
 │
-├── main.py              # Script principal con la lógica del bot y comandos
-├── requirements.txt     # Dependencias del proyecto
-├── .gitignore           # Archivos excluidos del control de versiones (claves/tokens)
-└── README.md            # Documentación del proyecto
+├── bot_spotify_tiktok.py  # Script principal con la lógica del bot y comandos
+├── requirements.txt       # Dependencias del proyecto
+├── .gitignore             # Archivos excluidos del control de versiones (claves/tokens)
+└── README.md              # Documentación del proyecto
 ```
 ## 🔧 Instalación y Configuración
 
 1. Clonar el repositorio e instalar dependencias
 ```bash
 # Clonar el repositorio
-git clone [https://github.com/TU_USUARIO/tiktok-live-spotify-bot.git](https://github.com/TU_USUARIO/tiktok-live-spotify-bot.git)
+git clone https://github.com/LeilaPineda/bot_spotify_tiktok.git
 
 # Entrar al directorio
-cd tiktok-live-spotify-bot
+cd bot_spotify_tiktok
 
 # Instalar librerías necesarias
 pip install -r requirements.txt
@@ -53,11 +53,26 @@ Selecciona la opción Web API y guarda los cambios.
 Copia tu Client ID y Client Secret desde el panel de configuración de la app.
 
 3. Configurar credenciales en el proyecto
-Abre bot_spotify_tiktok.py y asigna tus credenciales en las variables correspondientes (o configúralas mediante variables de entorno):
-
+Abre bot_spotify_tiktok.py y asigna tus credenciales en las variables correspondientes:
+```python
+SPOTIPY_CLIENT_ID = 'TU_SPOTIFY_CLIENT_ID'
+SPOTIPY_CLIENT_SECRET = 'TU_SPOTIFY_CLIENT_SECRET'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8888/callback'
+TIKTOK_USERNAME = 'TIKTOK_USERNAME'
+```
 ⚠️ Importante: Asegúrate de incluir .cache y tu CLIENT_SECRET en el archivo .gitignore antes de publicar tu proyecto en repositorios públicos.
 
 ## 💻 Uso
-1. Abre la aplicación de Spotify en tu PC y pon a sonar cualquier canción por un par de segundos (esto activará tu reproductor).
+1. Abre la aplicación de Spotify en tu PC y pon a sonar cualquier canción por un par de segundos.
 2. Inicia transmisión en vivo en tu cuenta de TikTok.
 3. Ejecuta el archivo principal:
+```bash
+python bot_spotify_tiktok.py
+```
+La primera vez se abrirá una pestaña del navegador solicitando permisos de Spotify. Haz clic en Aceptar.
+¡Listo! Cuando tus espectadores escriban en el chat:
+**!play Ojitos Lindos Bad Bunny**
+El bot buscará la canción en Spotify y la agregará a tu cola de reproducción.
+
+## 🛡️ Licencia
+Este proyecto está distribuido bajo la licencia MIT. Consulta el archivo LICENSE para más información.
