@@ -46,21 +46,20 @@ pip install -r requirements.txt
 ```
 
 2. Configurar Spotify Developer Dashboard
-Ingresa a Spotify Developer Dashboard e inicia sesión.
-Haz clic en Create App y llena la información básica.
-En Redirect URIs, agrega exactamente: http://127.0.0.1:8888/callback
-Selecciona la opción Web API y guarda los cambios.
-Copia tu Client ID y Client Secret desde el panel de configuración de la app.
+* Ingresa a Spotify Developer Dashboard e inicia sesión.
+* Haz clic en Create App y llena la información básica.
+* En Redirect URIs, agrega exactamente: http://127.0.0.1:8888/callback
+* Selecciona la opción Web API y guarda los cambios.
+* Copia tu Client ID y Client Secret desde el panel de configuración de la app.
 
 3. Configurar credenciales en el proyecto
-Abre bot_spotify_tiktok.py y asigna tus credenciales en las variables correspondientes:
+* Abre bot_spotify_tiktok.py y asigna tus credenciales en las variables correspondientes:
 ```python
 SPOTIPY_CLIENT_ID = 'TU_SPOTIFY_CLIENT_ID'
 SPOTIPY_CLIENT_SECRET = 'TU_SPOTIFY_CLIENT_SECRET'
 SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:8888/callback'
 TIKTOK_USERNAME = 'TIKTOK_USERNAME'
 ```
-⚠️ Importante: Asegúrate de incluir .cache y tu CLIENT_SECRET en el archivo .gitignore antes de publicar tu proyecto en repositorios públicos.
 
 ## 💻 Uso
 1. Abre la aplicación de Spotify en tu PC y pon a sonar cualquier canción por un par de segundos.
