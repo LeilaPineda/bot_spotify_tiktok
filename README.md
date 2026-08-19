@@ -41,6 +41,8 @@ bot_spotify_tiktok/
    # Instalar librerías necesarias
    pip install -r requirements.txt
    ```
+**¿Prefieres usar la versión compilada?**
+Si no deseas instalar Python ni clonar el repositorio, puedes ir a la sección de **[Releases](https://github.com/LeilaPineda/bot_spotify_tiktok/releases)** y descargar el archivo ejecutable listo para usar (`.zip`) con un solo clic.
    
 2. Configurar Spotify Developer Dashboard
 * Ingresa a Spotify Developer Dashboard e inicia sesión.
