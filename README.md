@@ -41,8 +41,6 @@ bot_spotify_tiktok/
    # Instalar librerías necesarias
    pip install -r requirements.txt
    ```
-**¿Prefieres usar la versión compilada?**
-Si no deseas instalar Python ni clonar el repositorio, puedes ir a la sección de **[Releases](https://github.com/LeilaPineda/bot_spotify_tiktok/releases)** y descargar el archivo ejecutable listo para usar (`.zip`) con un solo clic.
    
 2. Configurar Spotify Developer Dashboard
 * Ingresa a Spotify Developer Dashboard e inicia sesión.
@@ -56,6 +54,9 @@ Si no deseas instalar Python ni clonar el repositorio, puedes ir a la sección d
 python bot_spotify_tiktok.py
 ```
 * Al abrir la app por primera vez, haz clic en el botón ⚙️ Settings para ingresar tus credenciales de Spotify y tu usuario de TikTok.
+
+**¿Prefieres usar la versión compilada?**
+Si no deseas instalar Python ni clonar el repositorio, puedes ir a la sección de **[Releases](https://github.com/LeilaPineda/bot_spotify_tiktok/releases)** y descargar el archivo ejecutable listo para usar (`.zip`) con un solo clic.
 
 ## 💻 Uso
 1. Abre la aplicación de Spotify en tu PC y pon a sonar cualquier canción por un par de segundos (para fijar un dispositivo activo).
