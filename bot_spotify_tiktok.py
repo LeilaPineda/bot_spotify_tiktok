@@ -9,19 +9,30 @@ from TikTokLive import TikTokLiveClient
 from TikTokLive.events import CommentEvent
 from TikTokLive.client.errors import UserOfflineError
 
+# Archivo JSON local donde se almacenan las credenciales de forma segura
 CONFIG_FILE = "config_bot.json"
 
 def resource_path(relative_path):
+    """
+    Obtiene la ruta absoluta del recurso (como el icono logo.ico), 
+    compatible tanto para la ejecución normal en Python como para 
+    el archivo ejecutable empaquetado con PyInstaller (_MEIPASS).
+    """
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
+# Configuración global de la apariencia de la interfaz gráfica
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 class SettingsWindow(ctk.CTkToplevel):
+    """
+    Ventana secundaria para configurar y guardar las credenciales 
+    de la API de Spotify y el usuario de TikTok.
+    """
     def __init__(self, parent, update_callback):
         super().__init__(parent)
         self.geometry("400x320")
@@ -29,6 +40,7 @@ class SettingsWindow(ctk.CTkToplevel):
         self.resizable(False, False)
         self.update_callback = update_callback
 
+        # Carga segura del icono de la ventana
         try:
             icon_path = os.path.abspath(resource_path("logo.ico"))
             if os.path.exists(icon_path):
@@ -36,8 +48,10 @@ class SettingsWindow(ctk.CTkToplevel):
         except Exception as e:
             print(f"Error cargando icono en settings: {e}")
 
+        # Bloquea la interacción con la ventana principal hasta cerrar esta
         self.grab_set()
 
+        # Componentes visuales del formulario de ajustes
         ctk.CTkLabel(self, text="Ajustes de API", font=("Arial", 16, "bold")).pack(pady=15)
         
         ctk.CTkLabel(self, text="Spotify Client ID:", font=("Arial", 11)).pack(anchor="w", padx=30)
@@ -52,12 +66,14 @@ class SettingsWindow(ctk.CTkToplevel):
         self.entry_tiktok_user = ctk.CTkEntry(self, width=340)
         self.entry_tiktok_user.pack(pady=2)
 
+        # Carga los valores actuales si ya existían previamente
         self.load_current_values()
 
         btn_save = ctk.CTkButton(self, text="Guardar Cambios", fg_color="blue", command=self.save_and_close)
         btn_save.pack(pady=15)
 
     def load_current_values(self):
+        """Lee el archivo de configuración existente para rellenar los campos de texto."""
         if os.path.exists(CONFIG_FILE):
             try:
                 with open(CONFIG_FILE, "r") as f:
@@ -69,6 +85,7 @@ class SettingsWindow(ctk.CTkToplevel):
                 pass
 
     def save_and_close(self):
+        """Almacena los datos ingresados en un archivo JSON local y cierra la ventana."""
         cid = self.entry_client_id.get().strip()
         csecret = self.entry_client_secret.get().strip()
         user = self.entry_tiktok_user.get().strip()
@@ -83,11 +100,16 @@ class SettingsWindow(ctk.CTkToplevel):
             print(f"Error al guardar: {e}")
 
 class BotApp(ctk.CTk):
+    """
+    Ventana principal de la aplicación que gestiona el estado del bot,
+    los registros en tiempo real y la conexión con las plataformas.
+    """
     def __init__(self):
         super().__init__()
         self.geometry("500x520")
         self.title("Bot Spotify & TikTok")
         
+        # Carga del icono para la ventana principal
         try:
             icon_path = os.path.abspath(resource_path("logo.ico"))
             if os.path.exists(icon_path):
@@ -97,14 +119,16 @@ class BotApp(ctk.CTk):
 
         self.resizable(False, False)
         self.is_running = False
-        self.is_paused = False  # Bandera de pausa
+        self.is_paused = False  # Bandera lógica para pausar la lectura de comentarios
 
+        # Contenedor superior para el botón de ajustes
         self.frame_top = ctk.CTkFrame(self, fg_color="transparent")
         self.frame_top.pack(pady=10, padx=20, fill="x")
 
         self.btn_settings = ctk.CTkButton(self.frame_top, text="⚙️ Settings", width=90, fg_color="gray30", hover_color="gray40", command=self.open_settings)
         self.btn_settings.pack(side="right")
 
+        # Opciones adicionales (Casilla de verificación para habilitar el comando !skip)
         self.frame_options = ctk.CTkFrame(self)
         self.frame_options.pack(pady=10, padx=10, fill="x")
 
@@ -112,6 +136,7 @@ class BotApp(ctk.CTk):
         self.checkbox_skip = ctk.CTkCheckBox(self.frame_options, text="Permitir comando !skip (saltar canción)", variable=self.skip_var, onvalue="on", offvalue="off")
         self.checkbox_skip.pack(pady=10, padx=10, anchor="w")
 
+        # Panel de indicadores de estado visual (Spotify y TikTok)
         self.frame_status = ctk.CTkFrame(self)
         self.frame_status.pack(pady=5, padx=10, fill="x")
 
@@ -121,9 +146,11 @@ class BotApp(ctk.CTk):
         self.lbl_tiktok_status = ctk.CTkLabel(self.frame_status, text="🔴 TikTok: Offline", font=("Arial", 12, "bold"), text_color="orange")
         self.lbl_tiktok_status.pack(side="right", padx=25, pady=5)
 
+        # Botón principal de control (Iniciar / Pausar / Reanudar)
         self.btn_toggle = ctk.CTkButton(self, text="Iniciar Bot", fg_color="green", hover_color="darkgreen", command=self.toggle_bot, height=35)
         self.btn_toggle.pack(pady=15)
 
+        # Caja de texto para mostrar los registros (logs) del sistema en tiempo real
         self.log_box = ctk.CTkTextbox(self, width=460, height=200, font=("Consolas", 11))
         self.log_box.pack(pady=5, padx=10)
         self.log_box.insert("0.0", "Sistema preparado. Presiona 'Iniciar Bot'.\n")
@@ -132,27 +159,32 @@ class BotApp(ctk.CTk):
         self.check_initial_config()
 
     def check_initial_config(self):
+        """Verifica si las credenciales ya existen al arrancar la aplicación."""
         if not os.path.exists(CONFIG_FILE):
             self.log_message("[Aviso] No hay credenciales configuradas. Da clic en '⚙️ Settings' para agregarlas.")
         else:
             self.log_message("[Sistema] Credenciales detectadas correctamente.")
 
     def open_settings(self):
+        """Abre la ventana de configuración si el bot no está ejecutándose."""
         if self.is_running:
             self.log_message("[Aviso] Pausa o detén el bot antes de cambiar la configuración.")
             return
         SettingsWindow(self, self.on_settings_updated)
 
     def on_settings_updated(self):
+        """Callback ejecutado al guardar cambios en la ventana de ajustes."""
         self.log_message("[Sistema] Credenciales actualizadas correctamente desde Settings.")
 
     def log_message(self, message):
+        """Inserta mensajes de registro en la caja de texto de la UI de manera segura."""
         self.log_box.configure(state="normal")
         self.log_box.insert("end", message + "\n")
         self.log_box.see("end")
         self.log_box.configure(state="disabled")
 
     def toggle_bot(self):
+        """Controla el flujo de arranque, pausa y reanudación del bot mediante hilos."""
         if not os.path.exists(CONFIG_FILE):
             self.log_message("[Error] Primero debes configurar tus credenciales en el botón '⚙️ Settings'.")
             return
@@ -170,7 +202,7 @@ class BotApp(ctk.CTk):
             self.log_message("[Error] Faltan datos en la configuración. Revisa '⚙️ Settings'.")
             return
 
-        # Si el bot nunca se ha iniciado, lo arrancamos por primera vez
+        # Arranque inicial del bot en un hilo separado para no congelar la interfaz
         if not self.is_running:
             self.is_running = True
             self.is_paused = False
@@ -185,7 +217,7 @@ class BotApp(ctk.CTk):
             )
             self.bot_thread.start()
         
-        # Si ya está corriendo, alternamos entre Pausa y Continuar sin perder la conexión
+        # Alterna entre estado de pausa y ejecución activa sin perder la conexión
         else:
             if not self.is_paused:
                 self.is_paused = True
@@ -197,7 +229,9 @@ class BotApp(ctk.CTk):
                 self.log_message("[Sistema] Bot reanudado. Escuchando el chat de nuevo.")
 
     def run_bot(self, cid, csecret, user, allow_skip):
+        """Lógica principal de escucha de TikTok y control remoto de Spotify."""
         try:
+            # Autenticación y conexión con la API de Spotify
             sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
                 client_id=cid, client_secret=csecret, 
                 redirect_uri="http://127.0.0.1:8888/callback",
@@ -216,11 +250,12 @@ class BotApp(ctk.CTk):
             self.btn_toggle.configure(text="Iniciar Bot", fg_color="green", hover_color="darkgreen")
             return
 
+        # Inicialización del cliente de WebSockets para TikTok Live
         client = TikTokLiveClient(unique_id=user)
 
         @client.on(CommentEvent)
         async def on_comment(event: CommentEvent):
-            # Si el bot no está corriendo o está pausado, ignoramos los mensajes por completo
+            """Escucha en tiempo real cada comentario enviado en el chat del directo."""
             if not self.is_running or self.is_paused:
                 return
             
@@ -228,6 +263,7 @@ class BotApp(ctk.CTk):
             user_name = event.user.nickname
             comment_lower = comment.lower()
 
+            # Procesamiento del comando !play para agregar canciones a la cola
             if comment_lower.startswith("!play "):
                 search_query = comment[6:].strip()
                 if search_query:
@@ -249,6 +285,7 @@ class BotApp(ctk.CTk):
                     except Exception as e:
                         self.log_message(f"[Error Spotify Play]: {e}")
 
+            # Procesamiento opcional del comando !skip para saltar canciones
             elif allow_skip == "on" and comment_lower == "!skip":
                 self.log_message(f"[Comando !skip] {user_name} solicitó saltar canción.")
                 try:
@@ -269,6 +306,7 @@ class BotApp(ctk.CTk):
             self.lbl_tiktok_status.configure(text="🔴 TikTok: Error", text_color="red")
             self.log_message(f"[Error TikTok]: {e}")
         
+        # Restablece los estados visuales y botones si la conexión finaliza
         self.is_running = False
         self.is_paused = False
         self.btn_settings.configure(state="normal")
