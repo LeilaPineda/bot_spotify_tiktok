@@ -18,7 +18,7 @@ Bot de automatización con interfaz gráfica desarrollado en Python que se conec
 * **Spotipy** — Librería cliente de Python para consumir la API Web de Spotify con flujo OAuth 2.0.
 
 ## 📁 Estructura del Proyecto
-
+   ```text
 bot_spotify_tiktok/
 │
 ├── bot_spotify_tiktok.py  # Script principal con la lógica, UI y comandos
@@ -26,6 +26,7 @@ bot_spotify_tiktok/
 ├── .gitignore             # Archivos excluidos del control de versiones (claves/tokens)
 ├── logo.ico               # Icono de la aplicación
 └── README.md              # Documentación del proyecto
+   ```
 
 ## 🔧 Instalación y Configuración
 
@@ -39,7 +40,7 @@ bot_spotify_tiktok/
    
    # Instalar librerías necesarias
    pip install -r requirements.txt
-    ```
+   ```
    
 2. Configurar Spotify Developer Dashboard
 * Ingresa a Spotify Developer Dashboard e inicia sesión.
