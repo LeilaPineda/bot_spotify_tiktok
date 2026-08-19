@@ -1,3 +1,11 @@
+# Credenciales del bot
+config_bot.json
+
+# Carpetas de PyInstaller y ejecutables
+build/
+dist/
+*.spec
+
 # Archivo de caché de autenticación de Spotify (¡Contiene tu token privado!)
 .cache
 .cache-*
